@@ -1,0 +1,89 @@
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #2c3e50, #34495e);
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: url('imgs/img.png'); /* Usa la misma imagen que en el login */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.form-box {
+    background-color: rgba(0, 0, 0, 0.75);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 0 20px #000;
+    width: 350px;
+    color: white;
+    text-align: center;
+}
+
+.form-box h2 {
+    margin-bottom: 25px;
+    font-size: 24px;
+    letter-spacing: 1px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+input {
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    background-color: #ecf0f1;
+    font-size: 14px;
+}
+
+.register-btn {
+    padding: 10px;
+    background-color: #566573;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 15px;
+}
+
+.register-btn:hover {
+    background-color: #3498db;
+}
+
+.button-group {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+.switch-btn {
+    background: none;
+    border: 1px solid #ccc;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.switch-btn:hover {
+    background-color: #3498db;
+    border-color: #3498db;
+}
+h2 {
+    margin-bottom: 20px;
+}

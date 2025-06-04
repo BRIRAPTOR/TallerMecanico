@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Citas Taller Mecánico</title>
+    <link rel="stylesheet" href="citas.css" />
+</head>
+<body>
+<form id="form-cita">
+    <input type="hidden" name="id">
+    <label>Cliente:
+        <select name="usuario_id" required></select>
+    </label>
+    <label>Mecánico:
+        <select name="mecanico_id" id="mecanico_id" required></select>
+    </label>
+    <label>Fecha:
+        <input type="date" name="fecha" id="fecha" required>
+    </label>
+    <label>Hora:
+        <input type="time" name="hora" id="hora" required>
+    </label>
+    <label>Nota:
+        <input type="text" name="nota" id="nota">
+    </label>
+    <button type="submit">Guardar cita</button>
+</form>
+<div class="lista">
+    <h2>Citas</h2>
+    <ul id="lista-citas"></ul>
+</div>
+<script src="citas.js"></script>
+</body>
+</html>

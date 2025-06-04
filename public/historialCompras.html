@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Historial de Pedidos</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Fuente más moderna */
+      background-color: #f4f7f6; /* Un fondo suave para la página */
+      margin: 0;
+      padding: 20px;
+      color: #333; /* Color de texto principal */
+    }
+
+    .container {
+      max-width: 900px; /* Ancho máximo para el contenido */
+      margin: 20px auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Sombra sutil para el contenedor principal */
+    }
+
+    h1 {
+      color: #2c3e50; /* Un color oscuro y elegante para el título principal */
+      text-align: center;
+      margin-bottom: 30px;
+      font-weight: 600;
+    }
+
+    #pedidos-container {
+      display: grid; /* Usamos grid para organizar los pedidos */
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); /* Columnas responsivas */
+      gap: 20px; /* Espacio entre los pedidos */
+    }
+
+    .pedido {
+      background-color: #ffffff;
+      border: 1px solid #e0e0e0; /* Borde más suave */
+      border-radius: 8px; /* Bordes redondeados más pronunciados */
+      padding: 20px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transición suave para hover */
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05); /* Sombra ligera inicial */
+    }
+
+    .pedido:hover {
+      transform: translateY(-5px); /* Efecto de elevación al pasar el cursor */
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12); /* Sombra más pronunciada en hover */
+    }
+
+    .pedido h3 {
+      margin-top: 0;
+      margin-bottom: 15px;
+      font-size: 20px; /* Tamaño de fuente ligeramente mayor para el ID */
+      color: #3498db; /* Color distintivo para el ID del pedido */
+      font-weight: 600;
+      border-bottom: 1px solid #f0f0f0; /* Línea separadora sutil */
+      padding-bottom: 10px;
+    }
+
+    .pedido p {
+      margin: 8px 0;
+      font-size: 15px;
+      line-height: 1.6; /* Mejor interlineado para legibilidad */
+      color: #555; /* Color de texto secundario */
+    }
+
+    .pedido p strong {
+      color: #333; /* Color más oscuro para las etiquetas */
+      min-width: 120px; /* Asegura alineación de los valores */
+      display: inline-block; /* Permite aplicar min-width */
+    }
+
+    /* Estilos adicionales para mejorar la presentación de datos específicos */
+    .pedido .total {
+      font-weight: bold;
+      color: #27ae60; /* Color verde para el total */
+      font-size: 18px;
+    }
+
+    .pedido .fecha {
+      font-style: italic;
+      color: #7f8c8d; /* Color grisáceo para la fecha */
+      font-size: 14px;
+    }
+
+    .pedido .detalle {
+      background-color: #f9f9f9; /* Fondo ligeramente diferente para el detalle */
+      padding: 10px;
+      border-radius: 4px;
+      margin-top: 10px;
+      font-size: 14px;
+      border-left: 3px solid #3498db; /* Línea decorativa a la izquierda */
+    }
+
+    /* Estilos para pantallas pequeñas */
+    @media (max-width: 768px) {
+      #pedidos-container {
+        grid-template-columns: 1fr; /* Una sola columna en pantallas pequeñas */
+      }
+      .container {
+        padding: 15px;
+      }
+      h1 {
+        font-size: 24px;
+      }
+      .pedido h3 {
+        font-size: 18px;
+      }
+      .pedido p {
+        font-size: 14px;
+      }
+    }
+
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Historial de Pedidos</h1>
+  <div id="pedidos-container"></div>
+</div>
+
+<script>
+  const apiUrl = '/admin/historial-compras'; // Asegúrate que esta URL es correcta
+
+  async function obtenerPedidos() {
+    try {
+
+       const response = await fetch(apiUrl);
+       const pedidos = await response.json();
+
+      const pedidosContainer = document.getElementById('pedidos-container');
+      pedidosContainer.innerHTML = ''; // Limpiar contenedor antes de agregar nuevos pedidos
+
+      if (pedidos.length === 0) {
+        pedidosContainer.innerHTML = '<p>No hay pedidos para mostrar.</p>';
+        return;
+      }
+
+      pedidos.forEach(pedido => {
+        const pedidoDiv = document.createElement('div');
+        pedidoDiv.classList.add('pedido');
+
+        // Formatear la fecha para mejor legibilidad
+        const fechaFormateada = new Date(pedido.fecha).toLocaleDateString('es-ES', {
+          year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit'
+        });
+
+        pedidoDiv.innerHTML = `
+          <h3>Pedido ID: ${pedido.id}</h3>
+          <p><strong>Cliente:</strong> ${pedido.nombre_usuario}</p>
+          <p><strong>Fecha:</strong> <span class="fecha">${fechaFormateada}</span></p>
+          <p><strong>Total:</strong> <span class="total">$${pedido.total}</span></p>
+          <p><strong>Detalle:</strong></p>
+          <div class="detalle">${pedido.detalle}</div>
+        `;
+        pedidosContainer.appendChild(pedidoDiv);
+      });
+    } catch (error) {
+      console.error('Error al obtener los pedidos:', error);
+      const pedidosContainer = document.getElementById('pedidos-container');
+      pedidosContainer.innerHTML = '<p>Error al cargar los pedidos. Por favor, inténtalo más tarde.</p>';
+    }
+  }
+
+  obtenerPedidos();
+</script>
+
+</body>
+</html>

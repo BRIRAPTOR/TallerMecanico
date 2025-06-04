@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panadería La Desesperanza</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+<section class="hero">
+    <h1>Merch</h1>
+    <p>Sistema de gestión de taller mecánico</p>
+</section>
+
+<header>
+    <h1>Productos en venta</h1>
+</header>
+<nav>
+    <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="logIn.html">Log In</a></li>
+        <li><a href="signUp.html">Sign Up</a></li>
+        <li><a href="main.html">Main ROOT</a></li>
+        <li><a href="fondos.html">Fondos</a></li>
+        <li><a href="ticket.html">Ticket</a></li>
+        <li><a href="Compras.html">Historial Compras</a></li>
+        <li><a href="carrito.html">Carrito</a></li>
+        <li><button id="logoutBtn">Log out</button></li>
+    </ul>
+</nav>
+<main>
+    <!-- Sección principal de contenido -->
+    <section class="content">
+        <div id="productos"></div>
+        <script>
+            // Cargar todos los productos
+            function cargarProductos() {
+                fetch('/productos')
+                    .then(response => response.json())
+                    .then(data => {
+                        const productosDiv = document.getElementById('productos');
+                        productosDiv.innerHTML = data.map(producto => `
+                            <div class="card">
+                                <h4>${producto.nombre}</h4>
+                                <p>${producto.descripcion}</p>
+                                <p>Precio: $${producto.precio}</p>
+                                <p>Stock: ${producto.stock}</p>
+                                <img src="${producto.imagen}" alt="${producto.nombre}">
+                                <button onclick="addProductToCar(${producto.id})">Agregar al carrito</button>
+                                <!--<button onclick="buyNow(${producto.id})">Comprar ahora</button>-->
+                            </div>`).join('');
+                    }).catch(err => console.error('Error al cargar productos:', err));
+            }
+
+            // Función para agregar el producto al carrito
+            function addProductToCar(productoId) {
+                const cantidad = prompt('¿Cuántos deseas agregar al carrito?'); // Solicitar la cantidad
+                if (cantidad && !isNaN(cantidad) && cantidad > 0) {
+
+                    // Hacer la solicitud POST para agregar al carrito
+                    fetch('/carrito', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            producto_id: productoId,
+                            cantidad: parseInt(cantidad)
+                        })
+                    })
+                        .then(response => {
+                            if (!response.ok) {
+                                return response.text().then(text => { throw new Error(text) });
+                            }
+                            alert('Producto agregado al carrito');
+                        })
+                        .catch(err => {
+                            console.error('Error al agregar producto al carrito:', err);
+                            alert('No se pudo agregar el producto al carrito. Por favor, inicia sesión.');
+                        });
+                } else {
+                    alert('Por favor ingresa una cantidad válida.');
+                }
+            }
+
+            // Cargar los productos al cargar la página
+            document.addEventListener('DOMContentLoaded', cargarProductos);
+
+            document.getElementById('logoutBtn').addEventListener('click', async function () {
+
+
+                try {
+                    const response = await fetch('/logout', {
+                        method: 'POST'
+                    });
+
+                    if (response.ok) {
+                        showMessage('Sesión cerrada con éxito.');
+                        window.location.href = '/login.html';
+                    } else {
+                        const data = await response.json();
+                        showMessage(data.error || 'Error al cerrar sesión.', true); // Mostrar mensaje de error si no es exitosa
+                    }
+                } catch (error) {
+                    console.error('Error al cerrar sesión:', error);
+                    showMessage('Error al conectar con el servidor.', true); // Error de conexión con el servidor
+                }
+            });
+
+            function showMessage(message, isError = false) {
+                const messageBox = document.createElement('div');
+                messageBox.textContent = message;
+                messageBox.classList.add('message-box'); // Clase base
+                if (isError) {
+                    messageBox.classList.add('error'); // Clase para error
+                } else {
+                    messageBox.classList.add('success'); // Clase para éxito
+                }
+                document.body.appendChild(messageBox);
+
+                // El CSS se encarga de la animación y desaparición,
+                // pero podemos quitarlo del DOM después de la animación para limpieza.
+                setTimeout(() => {
+                    if (messageBox.parentNode) { // Verificar si todavía está en el DOM
+                        messageBox.remove();
+                    }
+                }, 3000); // 3000ms coincide con la duración de la animación
+            }
+
+        </script>
+    </section>
+</main>
+</body>
+</html>

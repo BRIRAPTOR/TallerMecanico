@@ -1,0 +1,38 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #ececec; display: flex; flex-direction: column;
+    align-items: center; padding: 2rem;
+}
+form, .lista {
+    background: #fff; border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    padding: 2rem; width: 100%; max-width: 480px;
+    margin-bottom: 2rem;
+}
+label { display: block; margin-bottom: 1rem; color: #444; }
+input, select, button {
+    width: 100%; padding: 0.75rem; margin-top: 0.25rem;
+    border: 1px solid #bbb; border-radius: 6px;
+    font-size: 1rem; box-sizing: border-box;
+}
+button {
+    background: #0078d4; color: #fff; border: none;
+    cursor: pointer; transition: background 0.25s;
+    margin-top: 1rem;
+}
+button:hover { background: #005a9e; }
+.lista ul { list-style: none; padding: 0; }
+.lista li {
+    background: #fdfdfd; margin-bottom: 0.75rem;
+    padding: 1rem; border-radius: 6px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    display: flex; justify-content: space-between;
+    align-items: center;
+}
+.lista li button {
+    background: transparent; border: none;
+    font-size: 1.2rem; cursor: pointer;
+    margin-left: 0.5rem; color: #0078d4;
+    transition: color 0.2s;
+}
+.lista li button:hover { color: #005a9e; }

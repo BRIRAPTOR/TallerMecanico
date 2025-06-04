@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrito de Compras</title>
+    <link rel="stylesheet" href="carrito.css">
+</head>
+
+<body>
+<h2>Carrito de Compras</h2>
+
+<!-- Sección de productos en el carrito -->
+<div class="cart-container">
+    <ul id="cartItems">
+        <!-- Los productos se agregarán aquí dinámicamente -->
+    </ul>
+</div>
+
+<!-- Total del carrito -->
+<div class="cart-summary">
+    <h3>Total: <span id="totalPrice">$0.00</span></h3>
+</div>
+
+<!-- Botón para procesar la compra -->
+<div class="actions">
+    <h3>Procesar Compra</h3>
+    <button id="comprarBtn">Comprar</button>
+</div>
+
+<div class="message" id="message"></div>
+
+<script>
+    // Función para obtener los productos del carrito desde el servidor
+    async function getCartItems() {
+        try {
+            const response = await fetch('/productoscarrito', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            });
+
+            if (response.ok) {
+                return await response.json(); // Retorna los productos del carrito
+            } else {
+                showMessage('Error al cargar los productos del carrito', true);
+                return [];
+            }
+        } catch (error) {
+            console.error('Error al conectar con el servidor:', error);
+            showMessage('Error al conectar con el servidor', true);
+            return [];
+        }
+    }
+
+    // Función para calcular el total del carrito
+    function updateTotal(cart) {
+        let total = 0;
+        cart.forEach(product => {
+            total += product.precio * product.cantidad;
+        });
+        document.getElementById('totalPrice').textContent = `$${total.toFixed(2)}`;
+    }
+
+    // Función para eliminar un producto del carrito
+    async function removeProduct(id) {
+        await fetch('/productocarrito/' + id, {method: 'DELETE'});
+        await init();
+    }
+
+    // Función para renderizar los productos en el carrito
+    function renderCart(cart) {
+        const cartItemsList = document.getElementById('cartItems');
+        cartItemsList.innerHTML = ''; // Limpiar la lista antes de volver a renderizarla
+
+        cart.forEach(product => {
+            const li = document.createElement('li');
+            li.classList.add('cart-item');
+
+            li.innerHTML = `
+                <img src="${product.imagen}" alt="${product.nombre}" class="product-image">
+                <span class="product-name">${product.nombre}</span>
+                <span class="product-quantity">Cantidad: ${product.cantidad}</span>
+                <span class="product-price">$${(product.precio * product.cantidad).toFixed(2)}</span>
+                <button class="remove-btn" onclick="removeProduct(${product.producto_id})">Eliminar</button>
+            `;
+            cartItemsList.appendChild(li);
+        });
+    }
+
+    // Función para mostrar mensajes
+    function showMessage(message, isError = false) {
+        const messageDiv = document.getElementById('message');
+        messageDiv.textContent = message;
+        messageDiv.style.color = isError ? 'red' : 'green';
+    }
+
+    // Evento de compra
+    document.getElementById('comprarBtn').addEventListener('click', async function () {
+        try {
+            const response = await fetch('/comprar', {
+                method: 'POST',
+            });
+
+            if (response.ok) {
+                const text = await response.text();
+                showMessage(text || 'Compra realizada con éxito');
+            } else {
+                const text = await response.text();
+                showMessage(text || 'Error al procesar la compra', true);
+            }
+        } catch (error) {
+            console.error('Error al conectar con el servidor:', error);
+            showMessage('Error al conectar con el servidor', true);
+        }
+    });
+
+    // Iniciar renderizado del carrito
+    async function init() {
+        const cart = await getCartItems();
+        renderCart(cart);
+        updateTotal(cart);
+    }
+    init();
+</script>
+</body>
+
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro - MECH-RECORD</title>
+    <link rel="stylesheet" href="signup.css">
+</head>
+<body>
+<div class="container">
+    <div class="form-box">
+        <h2>MECH-RECORD</h2>
+        <div class="button-group">
+            <a href="logIn.html"><button class="switch-btn">Iniciar Sesión</button></a>
+            <a href="signUp.html"><button class="switch-btn">Registrar</button></a>
+        </div>
+        <form id="registroForm">
+            <input type="text" id="nombre_usuario" placeholder="Nombre de usuario" required>
+            <input type="email" id="correo" placeholder="Correo electrónico" required>
+            <input type="password" id="contrasena" placeholder="Contraseña" required>
+            <button type="submit" class="register-btn">Registrar</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    document.getElementById('registroForm').addEventListener('submit', async function (event) {
+        event.preventDefault();
+
+        const nombre_usuario = document.getElementById('nombre_usuario').value;
+        const correo = document.getElementById('correo').value;
+        const contrasena = document.getElementById('contrasena').value;
+
+        const response = await fetch('/registro', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ nombre_usuario, correo, contrasena }),
+        });
+
+        if (response.ok) {
+            alert('Registro exitoso');
+        } else {
+            alert('Error al registrar. Verifica los datos.');
+        }
+    });
+</script>
+</body>
+</html>

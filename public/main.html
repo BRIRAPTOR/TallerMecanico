@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de gestión de taller mecánico</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <section class="hero">
+        <h1>Merch</h1>
+        <p>Sistema de gestión de taller mecánico</p>
+    </section>
+
+    <header>
+        <h1>Productos en venta</h1>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="logIn.html">Log In</a></li>
+            <li><a href="signUp.html">Sign Up</a></li>
+            <li><a href="main.html">Main ROOT</a></li>
+            <li><a href="historialCompras.html">Historial Compras</a></li>
+            <li><a href="carrito.html">Carrito</a></li>
+            <li><button id="logoutBtn">Log out</button></li>
+        </ul>
+    </nav>
+    <main>
+        <!-- Sección principal de contenido -->
+        <section class="content">
+            <form id="addProductForm">
+                <div class="form-group">
+                    <label for="nombre">Nombre</label>
+                    <input type="text" class="form-control" id="nombre" required>
+                </div>
+                <div class="form-group">
+                    <label for="descripcion">Descripción</label>
+                    <textarea class="form-control" id="descripcion" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="precio">Precio</label>
+                    <input type="number" class="form-input" id="precio" required>
+                </div>
+                <div class="form-group">
+                    <label for="stock">Stock</label>
+                    <input type="number" class="form-input" id="stock" required>
+                </div>
+                <div class="form-group">
+                    <label for="imagen">Imagen URL</label>
+                    <input type="text" class="form-input" id="imagen">
+                </div>
+                <button type="submit" class="btn_agregar">Agregar</button>
+            </form>
+            <div id="productos"></div>
+            
+        </section>
+
+        <div id="updateProductForm" class="modal">
+
+        </div>
+    </main>
+</body>
+<script src="script.js"></script>
+</html>

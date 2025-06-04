@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agregar Fondos</title>
+  <link rel="stylesheet" href="fondos.css">
+</head>
+<body>
+
+<div class="container">
+  <h1>Agregar Fondos a tu Perfil</h1>
+  <form id="add-funds-form">
+    <label for="monto">Monto a agregar:</label>
+    <input type="number" id="monto" name="monto" placeholder="Introduce el monto" required>
+    <button type="submit">Agregar Fondos</button>
+  </form>
+  <div id="response-message"></div>
+</div>
+
+<script>
+  document.getElementById('add-funds-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    const monto = document.getElementById('monto').value;
+
+    // Validar si el monto es positivo y mayor que 0
+    if (monto <= 0) {
+      console.log('El monto debe ser mayor que cero.');
+      return;
+    }
+
+    // Realizar la solicitud POST para agregar fondos
+    fetch('/agregar-fondos', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json' // Asegúrate de agregar el encabezado Content-Type
+      },
+      body: JSON.stringify({ monto: parseFloat(monto) }) // Convertir el monto a número flotante y enviarlo como JSON
+    })
+            .then(response => response.json())
+            .then(data => {
+              console.log(data); // Mostrar la respuesta del servidor
+
+              // Verificar si el mensaje es "Fondos agregados correctamente."
+              if (data.message === "Fondos agregados correctamente.") {
+                alert(data.message);  // Mostrar un alert con el mensaje de éxito
+              }
+            })
+            .catch(error => {
+              console.log(error); // Mostrar errores si los hay
+            });
+  });
+
+</script>
+</body>
+</html>

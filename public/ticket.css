@@ -1,0 +1,128 @@
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Estilo general del body */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f7fc;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    color: #333;
+}
+
+/* Contenedor principal */
+.container {
+    width: 100%;
+    max-width: 480px;
+    padding: 25px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* Estilo del título principal */
+h1 {
+    font-size: 28px;
+    color: #4CAF50;
+    margin-bottom: 20px;
+}
+
+/* Estilo del campo de entrada */
+input {
+    width: 100%;
+    padding: 12px;
+    margin: 15px 0;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.3s ease-in-out;
+}
+
+input:focus {
+    border-color: #4CAF50;
+}
+
+/* Estilo del botón */
+button {
+    width: 100%;
+    padding: 12px;
+    background-color: #4CAF50;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+/* Estilo para mostrar errores */
+.error {
+    color: red;
+    margin-top: 10px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/* Estilo para el ticket */
+.ticket {
+    margin-top: 25px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    display: none;
+    font-size: 16px;
+    text-align: left;
+}
+
+.ticket h2 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.ticket p {
+    margin: 10px 0;
+    font-size: 16px;
+}
+
+.ticket .productos {
+    margin-top: 15px;
+}
+
+.ticket .productos ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.ticket .productos ul li {
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+    font-size: 14px;
+}
+
+.ticket .productos ul li:last-child {
+    border-bottom: none;
+}
+
+.ticket .productos h3 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}

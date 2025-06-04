@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Visualizador de Ticket</title>
+  <link rel="stylesheet" href="ticket.css">
+</head>
+<body>
+<div class="container">
+  <h1>Visualizador de Ticket</h1>
+  <input
+          type="text"
+          id="numeroVenta"
+          placeholder="Ingresa el número de venta"
+  >
+  <button id="buscar">Buscar Ticket</button>
+
+  <div id="error" class="error"></div>
+
+  <div id="ticket" class="ticket"></div>
+</div>
+<script>
+  document.getElementById('buscar').addEventListener('click', async () => {
+    const numeroVenta = document.getElementById('numeroVenta').value;
+    const ticketDiv = document.getElementById('ticket');
+    const errorDiv = document.getElementById('error');
+
+    ticketDiv.style.display = 'none';
+    errorDiv.textContent = '';
+
+    if (!numeroVenta) {
+      errorDiv.textContent = 'Por favor, ingresa un número de venta.';
+      return;
+    }
+
+    try {
+      const response = await fetch(`/ticket/${numeroVenta}`);
+      if (!response.ok) {
+        throw new Error('No se pudo obtener el ticket.');
+      }
+
+      const ticket = await response.json();
+
+      ticketDiv.innerHTML = `
+            <h2>Ticket #${ticket.numero_venta}</h2>
+            <p><strong>Negocio:</strong> ${ticket.nombre_negocio}</p>
+            <p><strong>Fecha:</strong> ${new Date(ticket.fecha).toLocaleString()}</p>
+            <p><strong>Total:</strong> $${ticket.total}</p>
+            <div class="productos">
+                <h3>Productos Comprados:</h3>
+                <ul>
+                    ${ticket.productos.map(producto => `
+                        <li>
+                            <strong>${producto.producto}</strong><br>
+                            Cantidad: ${producto.cantidad}<br>
+                            Precio Unitario: $${producto.precio_unitario}<br>
+                            Subtotal: $${producto.subtotal}
+                        </li>
+                    `).join('')}
+                </ul>
+            </div>
+        `;
+      ticketDiv.style.display = 'block';
+    } catch (error) {
+      errorDiv.textContent = 'No se pudo obtener el ticket. Verifica el número de venta.';
+    }
+  });
+
+</script>
+</body>
+</html>
