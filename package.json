@@ -1,5 +1,5 @@
 {
-  "name": "Sistema de taller mecánico",
+  "name": "taller",
   "version": "1.0.0",
   "main": "server.mjs",
   "scripts": {
