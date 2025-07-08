@@ -1,20 +1,16 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema de gestión de taller mecánico</title>
     <link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
-
 <section class="hero">
     <h1>Merch</h1>
     <p>Sistema de gestión de taller mecánico</p>
 </section>
-
 <header>
     <h1>Productos en venta</h1>
 </header>
@@ -28,6 +24,7 @@
         <li><a href="ticket.html">Ticket</a></li>
         <li><a href="Compras.html">Historial Compras</a></li>
         <li><a href="carrito.html">Carrito</a></li>
+        <li><a href="citas.html">Citas</a></li>
         <li><button id="logoutBtn">Log out</button></li>
     </ul>
 </nav>
@@ -50,7 +47,6 @@
                                 <p>Stock: ${producto.stock}</p>
                                 <img src="${producto.imagen}" alt="${producto.nombre}">
                                 <button onclick="addProductToCar(${producto.id})">Agregar al carrito</button>
-                                <!--<button onclick="buyNow(${producto.id})">Comprar ahora</button>-->
                             </div>`).join('');
                     }).catch(err => console.error('Error al cargar productos:', err));
             }
